@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MundialFeminino.Api.Data;
 using MundialFeminino.Api.Models;
@@ -117,7 +116,9 @@ namespace MundialFeminino.Api.Controllers
                     j.Selecao == selecao &&
                     j.Ano == 2027);
 
-            if (jogadora == null)
+            bool foiCriada = jogadora == null;
+
+            if (foiCriada)
             {
                 jogadora = new GolJogadora
                 {
@@ -131,19 +132,30 @@ namespace MundialFeminino.Api.Controllers
             }
             else
             {
-                jogadora.Gols = requisicao.Gols;
+                jogadora!.Gols = requisicao.Gols;
             }
 
             await _contexto.SaveChangesAsync();
 
-            return Ok(new
+            var resposta = new
             {
-                mensagem = "Dados de 2027 salvos com sucesso.",
-                jogadora.Nome,
+                mensagem = foiCriada
+                    ? "Jogadora cadastrada com sucesso."
+                    : "Dados da jogadora atualizados com sucesso.",
+                jogadora!.Nome,
                 jogadora.Selecao,
                 jogadora.Ano,
                 jogadora.Gols
-            });
+            };
+
+            if (foiCriada)
+            {
+                return StatusCode(
+                    StatusCodes.Status201Created,
+                    resposta);
+            }
+
+            return Ok(resposta);
         }
     }
 }
