@@ -1,0 +1,19 @@
+﻿## Visual Studio
+.vs/
+*.user
+*.suo
+## Compilacao
+bin/
+obj/
+## Configuracoes locais
+appsettings.Development.json
+## Segredos e variaveis locais
+*.env
+.env
+.env.*
+!.env.example
+## Sistema operacional
+Thumbs.db
+.DS_Store
+
+appsettings.json

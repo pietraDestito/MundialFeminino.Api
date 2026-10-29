@@ -1,0 +1,6 @@
+@MundialFeminino.Api_HostAddress = http://localhost:5250
+
+GET {{MundialFeminino.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
