@@ -21,6 +21,7 @@ A aplicação disponibiliza dados por meio de endpoints HTTP e utiliza um banco 
 ## Tecnologias utilizadas
 
 - **C#** — linguagem de programação.
+- **.NET 10** — plataforma de desenvolvimento.
 - **ASP.NET Core Web API** — desenvolvimento dos endpoints REST.
 - **Entity Framework Core** — mapeamento objeto-relacional e acesso aos dados.
 - **SQL Server Express** — banco de dados relacional.
@@ -31,9 +32,10 @@ A aplicação disponibiliza dados por meio de endpoints HTTP e utiliza um banco 
 
 ### Pré-requisitos
 
-- .NET SDK compatível com o projeto.
+- .NET 10 SDK.
 - SQL Server Express instalado e em execução.
 - Git instalado.
+- Ferramenta `dotnet-ef` em versão compatível com o Entity Framework Core utilizado no projeto.
 
 ### 1. Clone o repositório
 
@@ -44,19 +46,28 @@ cd MundialFeminino.Api
 
 ### 2. Configure a conexão com o banco de dados
 
-Crie um arquivo chamado `appsettings.json` na pasta principal do projeto, utilizando `appsettings.example.json` como referência.
+Copie o arquivo `appsettings.example.json` para `appsettings.json` na pasta principal do projeto.
 
-Configure a conexão com sua instância local do SQL Server. Exemplo:
+No arquivo `appsettings.json`, substitua o valor de `ConexaoMundial` pela string de conexão da sua instância do SQL Server.
+
+Exemplo para uma instância local do SQL Server Express:
 
 ```json
 {
   "ConnectionStrings": {
     "ConexaoMundial": "Server=localhost\\SQLEXPRESS;Database=MundialFemininoDb;Trusted_Connection=True;TrustServerCertificate=True;"
-  }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
 }
 ```
 
-Ajuste o nome do servidor conforme sua instalação. Essa configuração é apenas um exemplo para ambiente local.
+Ajuste o nome do servidor conforme sua instalação. Essa configuração é um exemplo para ambiente local.
 
 ### 3. Aplique as migrations
 
@@ -64,7 +75,9 @@ Ajuste o nome do servidor conforme sua instalação. Essa configuração é apen
 dotnet ef database update
 ```
 
-Se o comando `dotnet ef` não estiver disponível, instale a ferramenta do Entity Framework Core em uma versão compatível com o projeto.
+Esse comando aplica as migrations existentes ao banco de dados configurado.
+
+Se o comando `dotnet ef` não estiver disponível, instale a ferramenta em uma versão compatível com o Entity Framework Core utilizado no projeto.
 
 ### 4. Execute a API
 
@@ -72,9 +85,9 @@ Se o comando `dotnet ef` não estiver disponível, instale a ferramenta do Entit
 dotnet run
 ```
 
-Acesse o Swagger pelo endereço informado no terminal. No ambiente local utilizado durante o desenvolvimento, a interface pode estar disponível em:
+Acesse o Swagger pelo endereço informado no terminal. Durante o desenvolvimento, a interface foi acessada em:
 
-http://localhost:5250/swagger/index.html
+[http://localhost:5250/swagger/index.html](http://localhost:5250/swagger/index.html)
 
 ## Endpoints
 
