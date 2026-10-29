@@ -66,7 +66,7 @@ namespace MundialFeminino.Api.Controllers
         }
 
         // GET: api/artilheiras/edicao/2019
-        // Também permite consultar os dados cadastrados para 2027.
+        // Consulta as artilheiras de uma edição válida.
         [HttpGet("edicao/{ano:int}")]
         public async Task<IActionResult> GetArtilheirasPorEdicao(int ano)
         {
@@ -97,10 +97,17 @@ namespace MundialFeminino.Api.Controllers
         }
 
         // PUT: api/artilheiras/2027
+        // Permite cadastrar ou atualizar dados somente de 2027.
         [HttpPut("2027")]
         public async Task<IActionResult> AtualizarGols2027(
             [FromBody] AtualizarGolsRequest requisicao)
         {
+            if (requisicao.Ano != 2027)
+            {
+                return BadRequest(
+                    "Este endpoint permite atualizar apenas os dados de 2027.");
+            }
+
             var nome = requisicao.Nome.Trim();
             var selecao = requisicao.Selecao.Trim();
 
